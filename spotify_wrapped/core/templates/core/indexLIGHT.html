@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Spotify Wrapped</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+            color: black;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background Shapes with Unique Animations */
+        .background-shape {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #FF007A, #00D4FF, #B3FF00);
+            opacity: 0.3;
+            filter: blur(50px);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        /* Specific positions and animations for each shape */
+        .shape1 {
+            top: 20%; left: 10%;
+            animation: floatHorizontal1 1s infinite ease-in-out alternate,
+                       floatVertical1 1s infinite ease-in-out alternate;
+        }
+        .shape2 {
+            top: 60%; right: 15%;
+            animation: floatHorizontal2 1s infinite ease-in-out alternate,
+                       floatVertical2 1s infinite ease-in-out alternate;
+        }
+        .shape3 {
+            bottom: 10%; left: 30%;
+            animation: floatHorizontal3 1s infinite ease-in-out alternate,
+                       floatVertical3 2.2s infinite ease-in-out alternate;
+        }
+        .shape4 {
+            top: 40%; left: 70%;
+            animation: floatHorizontal4 1s infinite ease-in-out alternate,
+                       floatVertical4 1s infinite ease-in-out alternate;
+        }
+
+        /* Horizontal animations with varying distances */
+        @keyframes floatHorizontal1 {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(120px); }
+        }
+        @keyframes floatHorizontal2 {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(150px); }
+        }
+        @keyframes floatHorizontal3 {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(180px); }
+        }
+        @keyframes floatHorizontal4 {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(140px); }
+        }
+
+        /* Vertical animations with varying distances */
+        @keyframes floatVertical1 {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-30px); }
+        }
+        @keyframes floatVertical2 {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        @keyframes floatVertical3 {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-25px); }
+        }
+        @keyframes floatVertical4 {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-35px); }
+        }
+
+        /* Header styling */
+        /* Header styling */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between the logo and the text */
+        }
+
+        .header-logo .spotify-logo {
+            width: 40px; /* Adjust the size of the logo */
+            height: 40px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1.5rem;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #03521e;
+            border-color: #1db954;
+        }
+
+        .term-selection-form {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .term-selection-row {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between dropdown and button */
+        }
+
+        .term-selection-form select {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+            background-color: #333;
+            color: white;
+            outline: none;
+            transition: border-color 0.3s ease;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .term-selection-form select:focus {
+            border-color: #1db954;
+        }
+
+        .term-selection-form button {
+            padding: 0.7rem 1.5rem;
+            background-color: #02481a;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            min-width: 175px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .term-selection-form button:hover {
+            background-color: #1aab49;
+            transform: translateY(-2px);
+        }
+
+
+
+        /* Hero Section */
+        .hero {
+            margin-top: 120px;
+            padding: 100px 5px;
+            text-align: center;
+            max-width: none;
+            z-index: 2;
+        }
+
+        /* Gradient text for heading */
+/* Gradient text for heading with color-changing animation */
+/* Gradient text for heading with subtle color-changing animation */
+/* Gradient text for heading with noticeable color-changing animation */
+    .hero h2 {
+        font-size: 5rem;
+        font-weight: 900;
+        letter-spacing: 2px;
+        background: linear-gradient(90deg, #007acc, #f5f0f0, #03a44c);
+        background-size: 200% 200%; /* Increase background size for smoother transition */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 8s infinite linear; /* Linear and continuous color shift */
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    /* Gradient animation for color-changing effect */
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
+
+
+
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-top: 10px;
+            color: #ddd;
+        }
+
+        .hero .btn {
+            display: inline-block;
+            background-color: #02481a;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .hero .btn:hover {
+            background-color: #1aab49;
+        }
+
+        /* Statistics Section */
+        .stats-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            margin-top: 30px;
+            padding: 60px 20px;
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .stats-container h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FFF;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .stats-container p {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-evenly;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            color: #1db954;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            width: 250px;
+            margin: 1rem;
+        }
+
+        .stat h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat p {
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            z-index: 2;
+        }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+                margin-top: 0.1rem;
+            }
+
+            nav ul li a {
+                font-size: 0.8rem;
+                padding: 0.5rem;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat {
+                width: 90%;
+                max-width: 300px;
+            }
+        }
+
+        /* Language Form Styling */
+        .language-form {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Select Box Styling */
+        .language-select {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+            background-color: #333;
+            color: white;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .language-select:focus {
+            border-color: #1db954;
+        }
+
+        /* Button Styling */
+        .btn-primary {
+            padding: 0.7rem 1.5rem;
+            background-color: #02481a;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #1aab49;
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<body>
+
+    <!-- Background Shapes -->
+    <div class="background-shape shape1"></div>
+    <div class="background-shape shape2"></div>
+    <div class="background-shape shape3"></div>
+    <div class="background-shape shape4"></div>
+
+    {% load i18n %}
+
+    <!-- Header section -->
+    <header>
+        <div class="header-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" class="spotify-logo">
+            <h1>{% trans "Spotify Wrapped" %}</h1>
+        </div>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'play_top_tracks' %}">{% trans "Listen to Your Top Tracks" %}</a></li>
+                {% endif %}
+                <li><a href="{% url 'describe_musicLIGHT' %}">{% trans "Describe My Taste" %}</a></li>
+                {% if user.is_authenticated and request.session.spotify_token %}
+                    <li><a href="{% url 'list_wraps' %}">{% trans "View Wraps" %}</a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+                {% else %}
+                    <li><a href="{% url 'spotify_login' %}">{% trans "Login" %}</a></li>
+                {% endif %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% trans "Settings" %}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+                        <li><a class="dropdown-item" href="{% url 'contact_developersLIGHT' %}">{% trans "Contact Us!" %}</a></li>
+                        <li><a class = "dropdown-item" href="{% url 'settingsLIGHT' %}"> {% trans "Display Settings" %}</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'delete_account' %}">{% trans "Delete Account" %}</a></li>
+                        {% endif %}
+                    </ul>
+                </li>                
+            </ul>
+        </nav>
+    </header>
+
+
+
+
+
+    <!-- Hero section -->
+    <!-- Hero section -->
+<main class="hero">
+    <h2>{% trans "Your Music Journey in 2024 🎶" %}</h2>
+    <p>{% trans "Discover the songs, artists, and moments that defined your year." %}</p>
+
+</main>
+
+
+</body>
+</html>
